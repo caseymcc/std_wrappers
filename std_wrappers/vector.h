@@ -1,26 +1,35 @@
-template<class _Myvec, class _IterTy>
+template<class _Myvec, class _IterTy, class _ConstIterTy>
 class vector_iterator;
 
-template<class _Myvec, class _IterTy>
+template<class _Ty, class _Alloc>
+class vector;
+
+template<class _Myvec, class _IterTy, class _ConstIterTy>
 class vector_const_iterator
 {
 public:
-    typedef vector_const_iterator<_Myvec, _IterTy> _Myiter;
+    typedef vector_const_iterator<_Myvec, _IterTy, _ConstIterTy> _Myiter;
+    typedef vector_iterator<_Myvec, _IterTy, _ConstIterTy> _Iter;
 
+    typedef std::random_access_iterator_tag iterator_category;
     typedef typename _Myvec::value_type value_type;
     typedef typename _Myvec::difference_type difference_type;
     typedef typename _Myvec::const_pointer pointer;
     typedef typename _Myvec::const_reference reference;
 
-    vector_const_iterator(const typename _IterTy &iter);
+#ifdef STD_WRAPPER_EXPORT
+    vector_const_iterator(const typename _ConstIterTy &iter);
+#endif//STD_WRAPPER_EXPORT
     vector_const_iterator(const _Myiter &right);
     vector_const_iterator(_Myiter &&right);
+    vector_const_iterator(const _Iter &right);
 
-//    vector_const_iterator(typename _IterTy &&iter);
+//    vector_const_iterator(typename _ConstIterTy &&iter);
     ~vector_const_iterator();
 
     _Myiter &operator=(const _Myiter &right);
     _Myiter &operator=(_Myiter &&right);
+    _Myiter &operator=(const _Iter &right);
 
     reference operator*() const;
     pointer operator->() const;
@@ -41,26 +50,30 @@ public:
     bool operator<=(const _Myiter &right) const;
     bool operator>=(const _Myiter &right) const;
 
-    friend vector_iterator<_Myvec, _IterTy>;
+    friend vector_iterator<_Myvec, _IterTy, _ConstIterTy>;
+    friend vector<typename _Myvec::value_type, typename _Myvec::allocator_type>;
 
 private:
-    typename _IterTy *_iter;
+    typename _ConstIterTy *_constIter;
 };
 
 
-template<class _Myvec, class _IterTy>
-class vector_iterator:public vector_const_iterator<_Myvec, _IterTy>
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+class vector_iterator//:public vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>
 {
 public:
-    typedef vector_iterator<_Myvec, _IterTy> _Myiter;
-    typedef vector_const_iterator<_Myvec, _IterTy> _Mybase;
+    typedef vector_iterator<_Myvec, _IterTy, _ConstIterTy> _Myiter;
+    typedef vector_const_iterator<_Myvec, _IterTy, _ConstIterTy> _ConstIter;
 
+    typedef std::random_access_iterator_tag iterator_category;
     typedef typename _Myvec::value_type value_type;
     typedef typename _Myvec::difference_type difference_type;
     typedef typename _Myvec::pointer pointer;
     typedef typename _Myvec::reference reference;
 
+#ifdef STD_WRAPPER_EXPORT
     vector_iterator(const typename _IterTy &iter);
+#endif//STD_WRAPPER_EXPORT
     vector_iterator(const _Myiter &right);
     vector_iterator(_Myiter &&right);
 //    vector_iterator(typename _IterTy &&iter);
@@ -78,8 +91,27 @@ public:
     _Myiter operator+(difference_type offset) const;
     _Myiter &operator-=(difference_type offset);
     _Myiter operator-(difference_type offset) const;
-    difference_type operator-(const _Mybase &right) const;
+    difference_type operator-(const _ConstIter &right) const;
     reference operator[](difference_type offset) const;
+
+    bool operator==(const _Myiter &right) const;
+    bool operator!=(const _Myiter &right) const;
+    bool operator<(const _Myiter &right) const;
+    bool operator>(const _Myiter &right) const;
+    bool operator<=(const _Myiter &right) const;
+    bool operator>=(const _Myiter &right) const;
+
+    bool operator==(const _ConstIter &right) const;
+    bool operator!=(const _ConstIter &right) const;
+    bool operator<(const _ConstIter &right) const;
+    bool operator>(const _ConstIter &right) const;
+    bool operator<=(const _ConstIter &right) const;
+    bool operator>=(const _ConstIter &right) const;
+
+    friend vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>;
+
+private:
+    typename _IterTy *_iter;
 };
 
 template<class _Ty, class _Alloc=std::allocator<_Ty> >
@@ -99,30 +131,30 @@ public:
     typedef typename std::vector<_Ty, _Alloc>::pointer pointer;
     typedef typename std::vector<_Ty, _Alloc>::const_pointer const_pointer;
 
-    typedef vector_iterator<_StdTy, typename _StdTy::iterator> iterator;
-    typedef vector_const_iterator<_StdTy, typename _StdTy::const_iterator> const_iterator;
-    typedef vector_iterator<_StdTy, typename _StdTy::reverse_iterator> reverse_iterator;
-    typedef vector_const_iterator<_StdTy, typename _StdTy::const_reverse_iterator> const_reverse_iterator;
-//    typedef typename std::vector<_Ty, _Alloc>::iterator iterator;
-//    typedef typename std::vector<_Ty, _Alloc>::const_iterator const_iterator;
-//    typedef typename std::vector<_Ty, _Alloc>::reverse_iterator reverse_iterator;
-//    typedef typename std::vector<_Ty, _Alloc>::const_reverse_iterator const_reverse_iterator;
+    typedef vector_iterator<_StdTy, typename _StdTy::iterator, typename _StdTy::const_iterator> iterator;
+    typedef vector_const_iterator<_StdTy, typename _StdTy::iterator, typename _StdTy::const_iterator> const_iterator;
+    typedef vector_iterator<_StdTy, typename _StdTy::reverse_iterator, typename _StdTy::const_reverse_iterator> reverse_iterator;
+    typedef vector_const_iterator<_StdTy, typename _StdTy::reverse_iterator, typename _StdTy::const_reverse_iterator> const_reverse_iterator;
 
 public:
     vector() noexcept;
+#ifdef STD_WRAPPER_EXPORT
     explicit vector(const _Alloc &alloc) noexcept;
+#endif//STD_WRAPPER_EXPORT
     explicit vector(size_type count);
     vector(size_type count, const value_type &value);
-    vector(size_type count, const value_type &value, const _Alloc &alloc=std::allocator<_Ty>);
 #ifdef STD_WRAPPER_EXPORT
+    vector(size_type count, const value_type &value, const _Alloc &alloc=std::allocator<_Ty>);
     template<class InputIt> vector(InputIt first, InputIt last, const _Alloc &alloc=std::allocator<_Ty>)
     { _vector=new std::vector<_Ty, _Alloc>(first, last, alloc); }
 #endif//STD_WRAPPER_EXPORT
     vector(const _Myt &right);
-    vector(const _Myt &right, const _Alloc &alloc);
-    vector(_Myt &&right) noexcept;
-    vector(_Myt &&right, const _Alloc &alloc);
 #ifdef STD_WRAPPER_EXPORT
+    vector(const _Myt &right, const _Alloc &alloc);
+#endif//STD_WRAPPER_EXPORT
+    vector(_Myt &&right) noexcept;
+#ifdef STD_WRAPPER_EXPORT
+    vector(_Myt &&right, const _Alloc &alloc);
     vector(const _StdTy &right);
     vector(const _StdTy &right, const _Alloc &alloc);
     vector(_StdTy &&right) noexcept;
@@ -180,6 +212,9 @@ public:
     size_type size() const noexcept;
     void reserve(size_type new_cap);
     void clear() noexcept;
+
+    iterator erase(const_iterator pos);
+    iterator erase(const_iterator first, const_iterator last);
 
     void push_back(const _Ty &value);
     void push_back(_Ty &&value);

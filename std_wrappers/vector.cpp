@@ -1,137 +1,181 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //vector_const_iterator
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-template<class _Myvec, class _IterTy>
-vector_const_iterator<_Myvec, _IterTy>::vector_const_iterator(const typename _IterTy &iter) { _iter=new _IterTy(iter); }
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::vector_const_iterator(const typename _ConstIterTy &iter) { _constIter=new _ConstIterTy(iter); }
 
-template<class _Myvec, class _IterTy>
-vector_const_iterator<_Myvec, _IterTy>::vector_const_iterator(const _Myiter &right) { _iter=new _IterTy(*(right._iter)); }
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::vector_const_iterator(const _Myiter &right) { _constIter=new _ConstIterTy(*(right._constIter)); }
 
-template<class _Myvec, class _IterTy>
-vector_const_iterator<_Myvec, _IterTy>::vector_const_iterator(_Myiter &&right) { _iter=right._iter; right._iter=nullptr; }
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::vector_const_iterator(_Myiter &&right) { _constIter=right._constIter; right._constIter=nullptr; }
 
-//template<class _Myvec, class _IterTy>
-//vector_const_iterator<_Myvec, _IterTy>::vector_const_iterator(typename _IterTy &&iter):_iter(iter) {}
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::vector_const_iterator(const _Iter &right) { _constIter=new _ConstIterTy(*(right._iter)); }
 
-template<class _Myvec, class _IterTy>
-vector_const_iterator<_Myvec, _IterTy>::~vector_const_iterator(){ delete _iter; }
+//template<class _Myvec, class _IterTy, class _ConstIterTy>
+//vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::vector_const_iterator(typename _ConstIterTy &&iter):_constIter(iter) {}
 
-template<class _Myvec, class _IterTy>
-typename vector_const_iterator<_Myvec, _IterTy>::_Myiter &vector_const_iterator<_Myvec, _IterTy>::operator=(const _Myiter &right) { if(_iter==nullptr) _iter=new _IterTy(*(right._iter)); else _iter->operator=(*(right._iter)); return *this; }
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::~vector_const_iterator(){ delete _constIter; }
 
-template<class _Myvec, class _IterTy>
-typename vector_const_iterator<_Myvec, _IterTy>::_Myiter &vector_const_iterator<_Myvec, _IterTy>::operator=(_Myiter &&right) { if(_iter!=nullptr) delete _iter;  _iter=right._iter; right._iter=nullptr; return *this; }
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+typename vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::_Myiter &vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::operator=(const _Myiter &right) { if(_constIter==nullptr) _constIter=new _ConstIterTy(*(right._constIter)); else _constIter->operator=(*(right._constIter)); return *this; }
 
-template<class _Myvec, class _IterTy>
-typename vector_const_iterator<_Myvec, _IterTy>::reference vector_const_iterator<_Myvec, _IterTy>::operator*() const { return _iter->operator*(); }
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+typename vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::_Myiter &vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::operator=(_Myiter &&right) { if(_constIter!=nullptr) delete _constIter;  _constIter=right._constIter; right._constIter=nullptr; return *this; }
 
-template<class _Myvec, class _IterTy>
-typename vector_const_iterator<_Myvec, _IterTy>::pointer vector_const_iterator<_Myvec, _IterTy>::operator->() const { return _iter->operator->(); }
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+typename vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::_Myiter &vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::operator=(const _Iter &right) { if(_constIter==nullptr) _constIter=new _ConstIterTy(*(right._iter)); else _constIter->operator=(*(right._iter)); return *this; }
 
-template<class _Myvec, class _IterTy>
-typename vector_const_iterator<_Myvec, _IterTy>::_Myiter &vector_const_iterator<_Myvec, _IterTy>::operator++() { _iter->operator++(); return *this; }
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+typename vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::reference vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::operator*() const { return _constIter->operator*(); }
 
-template<class _Myvec, class _IterTy>
-typename vector_const_iterator<_Myvec, _IterTy>::_Myiter vector_const_iterator<_Myvec, _IterTy>::operator++(int) { _iter->operator++(); return *this; }
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+typename vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::pointer vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::operator->() const { return _constIter->operator->(); }
 
-template<class _Myvec, class _IterTy>
-typename vector_const_iterator<_Myvec, _IterTy>::_Myiter &vector_const_iterator<_Myvec, _IterTy>::operator--() { _iter->operator--(); return *this; }
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+typename vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::_Myiter &vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::operator++() { _constIter->operator++(); return *this; }
 
-template<class _Myvec, class _IterTy>
-typename vector_const_iterator<_Myvec, _IterTy>::_Myiter vector_const_iterator<_Myvec, _IterTy>::operator--(int) { _iter->operator--(); return *this; }
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+typename vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::_Myiter vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::operator++(int) { _constIter->operator++(); return *this; }
 
-template<class _Myvec, class _IterTy>
-typename vector_const_iterator<_Myvec, _IterTy>::_Myiter &vector_const_iterator<_Myvec, _IterTy>::operator+=(difference_type offset) { _iter->operator+=(offset); return *this; }
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+typename vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::_Myiter &vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::operator--() { _constIter->operator--(); return *this; }
 
-template<class _Myvec, class _IterTy>
-typename vector_const_iterator<_Myvec, _IterTy>::_Myiter vector_const_iterator<_Myvec, _IterTy>::operator+(difference_type offset) const { _iter->operator+(offset); return *this; }
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+typename vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::_Myiter vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::operator--(int) { _constIter->operator--(); return *this; }
 
-template<class _Myvec, class _IterTy>
-typename vector_const_iterator<_Myvec, _IterTy>::_Myiter &vector_const_iterator<_Myvec, _IterTy>::operator-=(difference_type offset) { _iter->operator-=(offset); return *this; }
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+typename vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::_Myiter &vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::operator+=(difference_type offset) { _constIter->operator+=(offset); return *this; }
 
-template<class _Myvec, class _IterTy>
-typename vector_const_iterator<_Myvec, _IterTy>::_Myiter vector_const_iterator<_Myvec, _IterTy>::operator-(difference_type offset) const { _iter->operator-(offset); return *this; }
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+typename vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::_Myiter vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::operator+(difference_type offset) const { _constIter->operator+(offset); return *this; }
 
-template<class _Myvec, class _IterTy>
-typename vector_const_iterator<_Myvec, _IterTy>::difference_type vector_const_iterator<_Myvec, _IterTy>::operator-(const _Myiter &right) const { return _iter->operator-(*right._iter); }
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+typename vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::_Myiter &vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::operator-=(difference_type offset) { _constIter->operator-=(offset); return *this; }
 
-template<class _Myvec, class _IterTy>
-typename vector_const_iterator<_Myvec, _IterTy>::reference vector_const_iterator<_Myvec, _IterTy>::operator[](difference_type offset) const { return _iter->operator[](offset); }
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+typename vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::_Myiter vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::operator-(difference_type offset) const { _constIter->operator-(offset); return *this; }
 
-template<class _Myvec, class _IterTy>
-bool vector_const_iterator<_Myvec, _IterTy>::operator==(const _Myiter &right) const { return _iter->operator==(*right._iter); }
+template<class _Myvec, class _IterTy, class _ConstIterTy> //reverse iterator does not have operator-(const reverse_iterator &right) so this is allowing the compiler to search for nonmembers as well
+typename vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::difference_type vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::operator-(const _Myiter &right) const { return (*_constIter)-(*right._constIter); }
 
-template<class _Myvec, class _IterTy>
-bool vector_const_iterator<_Myvec, _IterTy>::operator!=(const _Myiter &right) const { return _iter->operator!=(*right._iter); }
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+typename vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::reference vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::operator[](difference_type offset) const { return _constIter->operator[](offset); }
 
-template<class _Myvec, class _IterTy>
-bool vector_const_iterator<_Myvec, _IterTy>::operator<(const _Myiter &right) const { return _iter->operator<(*right._iter); }
+//reverse iterator does not have any bool operator member functions, this is allowing the compiler to search for nonmembers as well
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+bool vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::operator==(const _Myiter &right) const { return (*_constIter)==(*right._constIter); }
 
-template<class _Myvec, class _IterTy>
-bool vector_const_iterator<_Myvec, _IterTy>::operator>(const _Myiter &right) const { return _iter->operator>(*right._iter); }
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+bool vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::operator!=(const _Myiter &right) const { return (*_constIter)!=(*right._constIter); }
 
-template<class _Myvec, class _IterTy>
-bool vector_const_iterator<_Myvec, _IterTy>::operator<=(const _Myiter &right) const { return _iter->operator<=(*right._iter); }
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+bool vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::operator<(const _Myiter &right) const { return (*_constIter)<(*right._constIter); }
 
-template<class _Myvec, class _IterTy>
-bool vector_const_iterator<_Myvec, _IterTy>::operator>=(const _Myiter &right) const { return _iter->operator>=(*right._iter); }
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+bool vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::operator>(const _Myiter &right) const { return (*_constIter)>(*right._constIter); }
+
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+bool vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::operator<=(const _Myiter &right) const { return (*_constIter)<=(*right._constIter); }
+
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+bool vector_const_iterator<_Myvec, _IterTy, _ConstIterTy>::operator>=(const _Myiter &right) const { return (*_constIter)>=(*right._constIter); }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //vector_iterator
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-template<class _Myvec, class _IterTy>
-vector_iterator<_Myvec, _IterTy>::vector_iterator(const typename _IterTy &iter):vector_const_iterator(iter) {}
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+vector_iterator<_Myvec, _IterTy, _ConstIterTy>::vector_iterator(const typename _IterTy &iter) { _iter=new _IterTy(iter); }
 
-template<class _Myvec, class _IterTy>
-vector_iterator<_Myvec, _IterTy>::vector_iterator(const _Myiter &right):vector_const_iterator(right) {}
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+vector_iterator<_Myvec, _IterTy, _ConstIterTy>::vector_iterator(const _Myiter &right) { _iter=new _IterTy(*(right._iter)); }
 
-template<class _Myvec, class _IterTy>
-vector_iterator<_Myvec, _IterTy>::vector_iterator(_Myiter &&right):vector_const_iterator(right) {}
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+vector_iterator<_Myvec, _IterTy, _ConstIterTy>::vector_iterator(_Myiter &&right) { _iter=right._iter; right._iter=nullptr; }
 
-//template<class _Myvec, class _IterTy>
-//vector_iterator<_Myvec, _IterTy>::vector_iterator(typename _IterTy &&iter):vector_const_iterator(iter) {}
+//template<class _Myvec, class _IterTy, class _ConstIterTy>
+//vector_iterator<_Myvec, _IterTy, _ConstIterTy>::vector_iterator(typename _IterTy &&iter):vector_const_iterator(iter) {}
 
-template<class _Myvec, class _IterTy>
-typename vector_iterator<_Myvec, _IterTy>::_Myiter &vector_iterator<_Myvec, _IterTy>::operator=(const _Myiter &right) { if(_iter==nullptr) _iter=new _IterTy(*(right._iter)); else _iter->operator=(*(right._iter)); return *this; }
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+typename vector_iterator<_Myvec, _IterTy, _ConstIterTy>::_Myiter &vector_iterator<_Myvec, _IterTy, _ConstIterTy>::operator=(const _Myiter &right) { if(_iter==nullptr) _iter=new _IterTy(*(right._iter)); else _iter->operator=(*(right._iter)); return *this; }
 
-template<class _Myvec, class _IterTy>
-typename vector_iterator<_Myvec, _IterTy>::_Myiter &vector_iterator<_Myvec, _IterTy>::operator=(_Myiter &&right) { if(_iter!=nullptr) delete _iter;  _iter=right._iter; right._iter=nullptr; return *this; }
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+typename vector_iterator<_Myvec, _IterTy, _ConstIterTy>::_Myiter &vector_iterator<_Myvec, _IterTy, _ConstIterTy>::operator=(_Myiter &&right) { if(_iter!=nullptr) delete _iter;  _iter=right._iter; right._iter=nullptr; return *this; }
 
-template<class _Myvec, class _IterTy>
-typename vector_iterator<_Myvec, _IterTy>::reference vector_iterator<_Myvec, _IterTy>::operator*() const { return _iter->operator*(); }
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+typename vector_iterator<_Myvec, _IterTy, _ConstIterTy>::reference vector_iterator<_Myvec, _IterTy, _ConstIterTy>::operator*() const { return _iter->operator*(); }
 
-template<class _Myvec, class _IterTy>
-typename vector_iterator<_Myvec, _IterTy>::pointer vector_iterator<_Myvec, _IterTy>::operator->() const { return _iter->operator->(); }
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+typename vector_iterator<_Myvec, _IterTy, _ConstIterTy>::pointer vector_iterator<_Myvec, _IterTy, _ConstIterTy>::operator->() const { return _iter->operator->(); }
 
-template<class _Myvec, class _IterTy>
-typename vector_iterator<_Myvec, _IterTy>::_Myiter &vector_iterator<_Myvec, _IterTy>::operator++() { _iter->operator++(); return *this; }
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+typename vector_iterator<_Myvec, _IterTy, _ConstIterTy>::_Myiter &vector_iterator<_Myvec, _IterTy, _ConstIterTy>::operator++() { _iter->operator++(); return *this; }
 
-template<class _Myvec, class _IterTy>
-typename vector_iterator<_Myvec, _IterTy>::_Myiter vector_iterator<_Myvec, _IterTy>::operator++(int) { _iter->operator++(); return *this; }
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+typename vector_iterator<_Myvec, _IterTy, _ConstIterTy>::_Myiter vector_iterator<_Myvec, _IterTy, _ConstIterTy>::operator++(int) { _iter->operator++(); return *this; }
 
-template<class _Myvec, class _IterTy>
-typename vector_iterator<_Myvec, _IterTy>::_Myiter &vector_iterator<_Myvec, _IterTy>::operator--() { _iter->operator--(); return *this; }
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+typename vector_iterator<_Myvec, _IterTy, _ConstIterTy>::_Myiter &vector_iterator<_Myvec, _IterTy, _ConstIterTy>::operator--() { _iter->operator--(); return *this; }
 
-template<class _Myvec, class _IterTy>
-typename vector_iterator<_Myvec, _IterTy>::_Myiter vector_iterator<_Myvec, _IterTy>::operator--(int) { _iter->operator--(); return *this; }
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+typename vector_iterator<_Myvec, _IterTy, _ConstIterTy>::_Myiter vector_iterator<_Myvec, _IterTy, _ConstIterTy>::operator--(int) { _iter->operator--(); return *this; }
 
-template<class _Myvec, class _IterTy>
-typename vector_iterator<_Myvec, _IterTy>::_Myiter &vector_iterator<_Myvec, _IterTy>::operator+=(difference_type offset) { _iter->operator+=(offset); return *this; }
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+typename vector_iterator<_Myvec, _IterTy, _ConstIterTy>::_Myiter &vector_iterator<_Myvec, _IterTy, _ConstIterTy>::operator+=(difference_type offset) { _iter->operator+=(offset); return *this; }
 
-template<class _Myvec, class _IterTy>
-typename vector_iterator<_Myvec, _IterTy>::_Myiter vector_iterator<_Myvec, _IterTy>::operator+(difference_type offset) const { _iter->operator+(offset); return *this; }
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+typename vector_iterator<_Myvec, _IterTy, _ConstIterTy>::_Myiter vector_iterator<_Myvec, _IterTy, _ConstIterTy>::operator+(difference_type offset) const { _iter->operator+(offset); return *this; }
 
-template<class _Myvec, class _IterTy>
-typename vector_iterator<_Myvec, _IterTy>::_Myiter &vector_iterator<_Myvec, _IterTy>::operator-=(difference_type offset) { _iter->operator-=(offset); return *this; }
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+typename vector_iterator<_Myvec, _IterTy, _ConstIterTy>::_Myiter &vector_iterator<_Myvec, _IterTy, _ConstIterTy>::operator-=(difference_type offset) { _iter->operator-=(offset); return *this; }
 
-template<class _Myvec, class _IterTy>
-typename vector_iterator<_Myvec, _IterTy>::_Myiter vector_iterator<_Myvec, _IterTy>::operator-(difference_type offset) const { _iter->operator-(offset); return *this; }
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+typename vector_iterator<_Myvec, _IterTy, _ConstIterTy>::_Myiter vector_iterator<_Myvec, _IterTy, _ConstIterTy>::operator-(difference_type offset) const { _iter->operator-(offset); return *this; }
 
-template<class _Myvec, class _IterTy>
-typename vector_iterator<_Myvec, _IterTy>::difference_type vector_iterator<_Myvec, _IterTy>::operator-(const _Mybase &right) const { return _iter->operator-(*right._iter); }
+template<class _Myvec, class _IterTy, class _ConstIterTy> //reverse iterator does not have operator-(const reverse_iterator &right) so this is allowing the compiler to search for nonmembers as well
+typename vector_iterator<_Myvec, _IterTy, _ConstIterTy>::difference_type vector_iterator<_Myvec, _IterTy, _ConstIterTy>::operator-(const _ConstIter &right) const { return (*_iter)-(*right._constIter); } 
 
-template<class _Myvec, class _IterTy>
-typename vector_iterator<_Myvec, _IterTy>::reference vector_iterator<_Myvec, _IterTy>::operator[](difference_type offset) const { return _iter->operator[](offset); }
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+typename vector_iterator<_Myvec, _IterTy, _ConstIterTy>::reference vector_iterator<_Myvec, _IterTy, _ConstIterTy>::operator[](difference_type offset) const { return _iter->operator[](offset); }
+
+//reverse iterator does not have any bool operator member functions, this is allowing the compiler to search for nonmembers as well
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+bool vector_iterator<_Myvec, _IterTy, _ConstIterTy>::operator==(const _Myiter &right) const { return (*_iter)==(*right._iter); }
+
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+bool vector_iterator<_Myvec, _IterTy, _ConstIterTy>::operator!=(const _Myiter &right) const { return (*_iter)!=(*right._iter); }
+
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+bool vector_iterator<_Myvec, _IterTy, _ConstIterTy>::operator<(const _Myiter &right) const { return (*_iter)<(*right._iter); }
+
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+bool vector_iterator<_Myvec, _IterTy, _ConstIterTy>::operator>(const _Myiter &right) const { return (*_iter)>(*right._iter); }
+
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+bool vector_iterator<_Myvec, _IterTy, _ConstIterTy>::operator<=(const _Myiter &right) const { return (*_iter)<=(*right._iter); }
+
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+bool vector_iterator<_Myvec, _IterTy, _ConstIterTy>::operator>=(const _Myiter &right) const { return (*_iter)>=(*right._iter); }
+
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+bool vector_iterator<_Myvec, _IterTy, _ConstIterTy>::operator==(const _ConstIter &right) const { return (*_iter)==(*right._constIter); }
+
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+bool vector_iterator<_Myvec, _IterTy, _ConstIterTy>::operator!=(const _ConstIter &right) const { return (*_iter)!=(*right._constIter); }
+
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+bool vector_iterator<_Myvec, _IterTy, _ConstIterTy>::operator<(const _ConstIter &right) const { return (*_iter)<(*right._constIter); }
+
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+bool vector_iterator<_Myvec, _IterTy, _ConstIterTy>::operator>(const _ConstIter &right) const { return (*_iter)>(*right._constIter); }
+
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+bool vector_iterator<_Myvec, _IterTy, _ConstIterTy>::operator<=(const _ConstIter &right) const { return (*_iter)<=(*right._constIter); }
+
+template<class _Myvec, class _IterTy, class _ConstIterTy>
+bool vector_iterator<_Myvec, _IterTy, _ConstIterTy>::operator>=(const _ConstIter &right) const { return (*_iter)>=(*right._constIter); }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //vector
@@ -280,6 +324,12 @@ void vector<_Ty, _Alloc>::reserve(size_type new_cap) { _vector->reserve(new_cap)
 
 template<class _Ty, class _Alloc>
 void vector<_Ty, _Alloc>::clear() noexcept { _vector->clear(); }
+
+template<class _Ty, class _Alloc>
+typename vector<_Ty, _Alloc>::iterator vector<_Ty, _Alloc>::erase(const_iterator pos) { return iterator(_vector->erase(*pos._constIter)); }
+
+template<class _Ty, class _Alloc>
+typename vector<_Ty, _Alloc>::iterator vector<_Ty, _Alloc>::erase(const_iterator first, const_iterator last){ return iterator(_vector->erase(*first._constIter, *last._constIter)); }
 
 template<class _Ty, class _Alloc>
 void vector<_Ty, _Alloc>::push_back(const _Ty &value) { _vector->push_back(value); }
