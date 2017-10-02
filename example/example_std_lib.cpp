@@ -3,6 +3,16 @@
 namespace example_std
 {
 
+shared_ptr<TestStruct> testSharedPtrReturn()
+{
+    shared_ptr<TestStruct> ptr(new TestStruct);
+
+    ptr->number=1;
+    ptr->value="test shared";
+
+    return ptr;
+}
+
 string testStringReturn()
 {
     string value="example from string";

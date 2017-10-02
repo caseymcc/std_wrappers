@@ -1,6 +1,9 @@
 #ifndef _stl_wrappers_macro_h_
 #define _stl_wrappers_macro_h_
 
+#define STD_WRAP_SHARED_PTR(EXTERN, EXPORT, TYPE) \
+ EXTERN template class EXPORT shared_ptr<TYPE>;
+
 #define STD_WRAP_STRING(EXTERN, EXPORT) STD_WRAP_BASIC_STRING(EXTERN, EXPORT, char)
 
 #define STD_WRAP_BASIC_STRING(EXTERN, EXPORT, TYPE) \
