@@ -5,6 +5,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
 #ifdef EXAMPLE_STD_EXPORTS
 #define EXAMPLE_STD_EXTERN
@@ -23,6 +24,16 @@ namespace example_std
 
 STD_WRAP_STRING(EXAMPLE_STD_EXTERN, EXAMPLE_STD_EXPORT);
 STD_WRAP_VECTOR(EXAMPLE_STD_EXTERN, EXAMPLE_STD_EXPORT, size_t);
+
+struct EXAMPLE_STD_EXPORT TestStruct
+{
+    int number;
+    string value;
+};
+
+#include "std_wrappers/shared_ptr.h"
+
+STD_WRAP_SHARED_PTR(EXAMPLE_STD_EXTERN, EXAMPLE_STD_EXPORT, TestStruct);
 
 }//namespace example_std
 

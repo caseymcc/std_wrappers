@@ -5,6 +5,7 @@
 
 namespace example_std
 {
+shared_ptr<TestStruct> testSharedPtrReturn();
 
 string testStringReturn();
 string testStringReturnFromBase();
