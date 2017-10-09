@@ -1,5 +1,5 @@
-#ifndef _stl_wrappers_macro_h_
-#define _stl_wrappers_macro_h_
+#ifndef _std_wrappers_macro_h_
+#define _std_wrappers_macro_h_
 
 #define STD_WRAP_SHARED_PTR(EXTERN, EXPORT, TYPE) \
  EXTERN template class EXPORT shared_ptr<TYPE>;
@@ -24,9 +24,17 @@
 
 #define STD_WRAP_VECTOR_ALLOC(EXTERN, EXPORT, TYPE, ALLOC) \
  EXTERN template class EXPORT vector<TYPE, ALLOC>; \
- EXTERN template class EXPORT vector_iterator<std::vector<TYPE, ALLOC>, typename std::vector<TYPE>::iterator, typename std::vector<TYPE>::const_iterator>; \
- EXTERN template class EXPORT vector_const_iterator<std::vector<TYPE, ALLOC>, typename std::vector<TYPE>::iterator, typename std::vector<TYPE>::const_iterator>; \
- EXTERN template class EXPORT vector_iterator<std::vector<TYPE, ALLOC>, typename std::vector<TYPE>::reverse_iterator, typename std::vector<TYPE>::const_reverse_iterator>; \
- EXTERN template class EXPORT vector_const_iterator<std::vector<TYPE, ALLOC>, typename std::vector<TYPE>::reverse_iterator, typename std::vector<TYPE>::const_reverse_iterator>;
+ EXTERN template class EXPORT vector_iterator<std::vector<TYPE, ALLOC>, typename std::vector<TYPE, ALLOC>::iterator, typename std::vector<TYPE, ALLOC>::const_iterator>; \
+ EXTERN template class EXPORT vector_const_iterator<std::vector<TYPE, ALLOC>, typename std::vector<TYPE, ALLOC>::iterator, typename std::vector<TYPE, ALLOC>::const_iterator>; \
+ EXTERN template class EXPORT vector_iterator<std::vector<TYPE, ALLOC>, typename std::vector<TYPE, ALLOC>::reverse_iterator, typename std::vector<TYPE, ALLOC>::const_reverse_iterator>; \
+ EXTERN template class EXPORT vector_const_iterator<std::vector<TYPE, ALLOC>, typename std::vector<TYPE, ALLOC>::reverse_iterator, typename std::vector<TYPE, ALLOC>::const_reverse_iterator>;
 
-#endif //_stl_wrappers_macro_h_
+
+#define STD_WRAP_MAP(EXTERN, EXPORT, TYPE1, TYPE2) \
+ EXTERN template class EXPORT map<TYPE1, TYPE2>; \
+ EXTERN template class EXPORT map_iterator<std::map<TYPE1, TYPE2>, typename std::map<TYPE1, TYPE2>::iterator, typename std::map<TYPE1, TYPE2>::const_iterator>; \
+ EXTERN template class EXPORT map_const_iterator<std::map<TYPE1, TYPE2>, typename std::map<TYPE1, TYPE2>::iterator, typename std::map<TYPE1, TYPE2>::const_iterator>; \
+ EXTERN template class EXPORT map_iterator<std::map<TYPE1, TYPE2>, typename std::map<TYPE1, TYPE2>::reverse_iterator, typename std::map<TYPE1, TYPE2>::const_reverse_iterator>; \
+ EXTERN template class EXPORT map_const_iterator<std::map<TYPE1, TYPE2>, typename std::map<TYPE1, TYPE2>::reverse_iterator, typename std::map<TYPE1, TYPE2>::const_reverse_iterator>;
+
+#endif //_std_wrappers_macro_h_
