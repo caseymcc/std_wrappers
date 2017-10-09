@@ -87,5 +87,37 @@ void testVectorEditByType(vector<size_t> &vec)
 //    values.push_back(99);
 }
 
+map<string, int> testMapReturn()
+{
+    map<string, int>  values;
+
+    values["test1"]=1;
+    values["test2"]=2;
+    values["test3"]=3;
+    values["test4"]=4;
+    values["test5"]=5;
+
+    return values;
+}
+
+map<string, int> testMapReturnFromBase()
+{
+    std::map<string, int>  values;
+
+    values["test6"]=6;
+    values["test7"]=7;
+    values["test8"]=8;
+    values["test9"]=9;
+    values["test10"]=10;
+
+    return map<string, int>(values);
+}
+
+void testMapEdit(map<string, int> &values)
+{
+    values["test11"]=11;
+    values["test12"]=12;
+}
+
 }//namespace example_std
 

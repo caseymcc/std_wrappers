@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <map>
+#include <unordered_map>
 
 #ifdef EXAMPLE_STD_EXPORTS
 #define EXAMPLE_STD_EXTERN
@@ -34,6 +36,10 @@ struct EXAMPLE_STD_EXPORT TestStruct
 #include "std_wrappers/shared_ptr.h"
 
 STD_WRAP_SHARED_PTR(EXAMPLE_STD_EXTERN, EXAMPLE_STD_EXPORT, TestStruct);
+
+#include "std_wrappers/map.h"
+
+STD_WRAP_MAP(EXAMPLE_STD_EXTERN, EXAMPLE_STD_EXPORT, string, int);
 
 }//namespace example_std
 

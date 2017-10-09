@@ -394,5 +394,226 @@ private:
     std::basic_string<_Elem, _Traits, _Alloc> *_string;
 };
 
+template<class _Elem, class _Traits, class _Alloc> inline
+void swap(basic_string<_Elem, _Traits, _Alloc>& left, basic_string<_Elem, _Traits, _Alloc>& right)
+    _NOEXCEPT_OP(_NOEXCEPT_OP(left.swap(right)))
+{	// swap left and right strings
+    left.swap(right);
+}
+
+template<class _Elem, class _Traits, class _Alloc> inline
+basic_string<_Elem, _Traits, _Alloc> operator+( const basic_string<_Elem, _Traits, _Alloc>& left, const basic_string<_Elem, _Traits, _Alloc>& right)
+{	// return string + string
+    basic_string<_Elem, _Traits, _Alloc> ans;
+    ans.reserve(left.size()+right.size());
+    ans+=left;
+    ans+=right;
+    return (ans);
+}
+
+template<class _Elem, class _Traits, class _Alloc> inline
+basic_string<_Elem, _Traits, _Alloc> operator+(const _Elem *left, const basic_string<_Elem, _Traits, _Alloc>& right)
+{	// return NTCS + string
+    basic_string<_Elem, _Traits, _Alloc> ans;
+    ans.reserve(_Traits::length(left)+right.size());
+    ans+=left;
+    ans+=right;
+    return (ans);
+}
+
+template<class _Elem, class _Traits, class _Alloc> inline
+basic_string<_Elem, _Traits, _Alloc> operator+(const _Elem left, const basic_string<_Elem, _Traits, _Alloc>& right)
+{	// return character + string
+    basic_string<_Elem, _Traits, _Alloc> ans;
+    ans.reserve(1+right.size());
+    ans+=left;
+    ans+=right;
+    return (ans);
+}
+
+template<class _Elem, class _Traits, class _Alloc> inline
+basic_string<_Elem, _Traits, _Alloc> operator+(const basic_string<_Elem, _Traits, _Alloc>& left, const _Elem *right)
+{	// return string + NTCS
+    basic_string<_Elem, _Traits, _Alloc> ans;
+    ans.reserve(left.size()+_Traits::length(right));
+    ans+=left;
+    ans+=right;
+    return (ans);
+}
+
+template<class _Elem, class _Traits, class _Alloc> inline
+basic_string<_Elem, _Traits, _Alloc> operator+(const basic_string<_Elem, _Traits, _Alloc>& left, const _Elem right)
+{	// return string + character
+    basic_string<_Elem, _Traits, _Alloc> ans;
+    ans.reserve(left.size()+1);
+    ans+=left;
+    ans+=right;
+    return (ans);
+}
+
+template<class _Elem, class _Traits, class _Alloc> inline
+basic_string<_Elem, _Traits, _Alloc> operator+(const basic_string<_Elem, _Traits, _Alloc>& left, basic_string<_Elem, _Traits, _Alloc>&& right)
+{	// return string + string
+    return (_STD move(right.insert(0, left)));
+}
+
+template<class _Elem, class _Traits, class _Alloc> inline
+basic_string<_Elem, _Traits, _Alloc> operator+(basic_string<_Elem, _Traits, _Alloc>&& left, const basic_string<_Elem, _Traits, _Alloc>& right)
+{	// return string + string
+    return (_STD move(left.append(right)));
+}
+
+template<class _Elem, class _Traits, class _Alloc> inline
+basic_string<_Elem, _Traits, _Alloc> operator+(basic_string<_Elem, _Traits, _Alloc>&& left, basic_string<_Elem, _Traits, _Alloc>&& right)
+{	// return string + string
+    if(right.size()<=left.capacity()-left.size()
+        ||right.capacity()-right.size() < left.size())
+        return (_STD move(left.append(right)));
+    else
+        return (_STD move(right.insert(0, left)));
+}
+
+template<class _Elem, class _Traits, class _Alloc> inline
+basic_string<_Elem, _Traits, _Alloc> operator+(const _Elem *left, basic_string<_Elem, _Traits, _Alloc>&& right)
+{	// return NTCS + string
+    return (_STD move(right.insert(0, left)));
+}
+
+template<class _Elem, class _Traits, class _Alloc> inline
+basic_string<_Elem, _Traits, _Alloc> operator+(const _Elem left, basic_string<_Elem, _Traits, _Alloc>&& right)
+{	// return character + string
+    typedef typename basic_string<_Elem, _Traits, _Alloc>::size_type
+        size_type;
+    return (_STD move(right.insert((size_type)0, (size_type)1, left)));
+}
+
+template<class _Elem, class _Traits, class _Alloc> inline
+basic_string<_Elem, _Traits, _Alloc> operator+(basic_string<_Elem, _Traits, _Alloc>&& left, const _Elem *right)
+{	// return string + NTCS
+    return (_STD move(left.append(right)));
+}
+
+template<class _Elem, class _Traits, class _Alloc> inline
+basic_string<_Elem, _Traits, _Alloc> operator+(basic_string<_Elem, _Traits, _Alloc>&& left, const _Elem right)
+{	// return string + character
+    return (_STD move(left.append(1, right)));
+}
+
+template<class _Elem, class _Traits, class _Alloc> inline
+bool operator==(const basic_string<_Elem, _Traits, _Alloc>& left, const basic_string<_Elem, _Traits, _Alloc>& right) noexcept
+{	// test for string equality
+    return (left.compare(right)==0);
+}
+
+template<class _Elem, class _Traits, class _Alloc> inline
+bool operator==(const _Elem * left, const basic_string<_Elem, _Traits, _Alloc>& right)
+{	// test for NTCS vs. string equality
+    return (right.compare(left)==0);
+}
+
+template<class _Elem, class _Traits, class _Alloc> inline
+bool operator==(const basic_string<_Elem, _Traits, _Alloc>& left, const _Elem *right)
+{	// test for string vs. NTCS equality
+    return (left.compare(right)==0);
+}
+
+template<class _Elem, class _Traits, class _Alloc> inline
+bool operator!=(const basic_string<_Elem, _Traits, _Alloc>& left, const basic_string<_Elem, _Traits, _Alloc>& right) noexcept
+{	// test for string inequality
+    return (!(left==right));
+}
+
+template<class _Elem, class _Traits, class _Alloc> inline
+bool operator!=(const _Elem *left, const basic_string<_Elem, _Traits, _Alloc>& right)
+{	// test for NTCS vs. string inequality
+    return (!(left==right));
+}
+
+template<class _Elem, class _Traits, class _Alloc> inline
+bool operator!=(const basic_string<_Elem, _Traits, _Alloc>& left, const _Elem *right)
+{	// test for string vs. NTCS inequality
+    return (!(left==right));
+}
+
+template<class _Elem, class _Traits, class _Alloc> inline
+bool operator<(const basic_string<_Elem, _Traits, _Alloc>& left, const basic_string<_Elem, _Traits, _Alloc>& right) noexcept
+{	// test if string < string
+    return (left.compare(right) < 0);
+}
+
+template<class _Elem, class _Traits, class _Alloc> inline
+bool operator<(const _Elem * left, const basic_string<_Elem, _Traits, _Alloc>& right)
+{	// test if NTCS < string
+    return (right.compare(left) > 0);
+}
+
+template<class _Elem, class _Traits, class _Alloc> inline
+bool operator<(const basic_string<_Elem, _Traits, _Alloc>& left, const _Elem *right)
+{	// test if string < NTCS
+    return (left.compare(right) < 0);
+}
+
+template<class _Elem, class _Traits, class _Alloc> inline
+bool operator>(const basic_string<_Elem, _Traits, _Alloc>& left, const basic_string<_Elem, _Traits, _Alloc>& right) noexcept
+{	// test if string > string
+    return (right < left);
+}
+
+template<class _Elem, class _Traits, class _Alloc> inline
+bool operator>(const _Elem * left, const basic_string<_Elem, _Traits, _Alloc>& right)
+{	// test if NTCS > string
+    return (right < left);
+}
+
+template<class _Elem, class _Traits, class _Alloc> inline
+bool operator>(const basic_string<_Elem, _Traits, _Alloc>& left, const _Elem *right)
+{	// test if string > NTCS
+    return (right < left);
+}
+
+template<class _Elem, class _Traits, class _Alloc> inline
+bool operator<=(const basic_string<_Elem, _Traits, _Alloc>& left, const basic_string<_Elem, _Traits, _Alloc>& right) noexcept
+{	// test if string <= string
+    return (!(right < left));
+}
+
+template<class _Elem, class _Traits, class _Alloc> inline
+bool operator<=(const _Elem * left, const basic_string<_Elem, _Traits, _Alloc>& right)
+{	// test if NTCS <= string
+    return (!(right < left));
+}
+
+template<class _Elem, class _Traits, class _Alloc> inline
+bool operator<=(const basic_string<_Elem, _Traits, _Alloc>& left, const _Elem *right)
+{	// test if string <= NTCS
+    return (!(right < left));
+}
+
+template<class _Elem, class _Traits, class _Alloc> inline
+bool operator>=(const basic_string<_Elem, _Traits, _Alloc>& left, const basic_string<_Elem, _Traits, _Alloc>& right) noexcept
+{	// test if string >= string
+    return (!(left < right));
+}
+
+template<class _Elem, class _Traits, class _Alloc> inline
+bool operator>=(const _Elem * left, const basic_string<_Elem, _Traits, _Alloc>& right)
+{	// test if NTCS >= string
+    return (!(left < right));
+}
+
+template<class _Elem, class _Traits, class _Alloc> inline
+bool operator>=(const basic_string<_Elem, _Traits, _Alloc>& left, const _Elem *right)
+{	// test if string >= NTCS
+    return (!(left < right));
+}
+
 typedef basic_string<char, std::char_traits<char>, std::allocator<char> > string;
 typedef basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> > wstring;
+
+
+template<class _Elem, class _Traits, class _Alloc>
+std::ostream &operator<<(std::ostream &os, const basic_string<_Elem, _Traits, _Alloc> &value)
+{
+    os<<value.c_str();
+    return os;
+}

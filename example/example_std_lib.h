@@ -18,6 +18,11 @@ vector<size_t> testVectorReturnFromBase();
 void testVectorEdit(vector<size_t> &vec);
 void testVectorEditByType(vector<size_t> &vec);
 
+map<string, int> testMapReturn();
+map<string, int> testMapReturnFromBase();
+
+void testMapEdit(map<string, int> &values);
+
 }//namespace example_std
 
 #endif //_example_std_lib_h_

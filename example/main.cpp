@@ -92,6 +92,34 @@ void testVectorIter(example_std::vector<_Type> &vec)
     }
 }
 
+template<typename _KeyType, typename _ValueType>
+void testMapIter(example_std::map<_KeyType, _ValueType> &map)
+{
+    std::cout<<"  Test iterator: ";
+    example_std::map<_KeyType, _ValueType>::iterator iter=map.begin();
+    if(iter!=map.end())
+    {
+        std::cout<<iter->first<<":"<<iter->second;
+        ++iter;
+        for(; iter!=map.end(); ++iter)
+            std::cout<<", "<<iter->first<<":"<<iter->second;;
+        std::cout<<std::endl;
+    }
+
+    std::map<_KeyType, _ValueType> values(map.begin(), map.end());
+    std::cout<<"  Test native iterator constructor copy: ";
+
+    std::map<_KeyType, _ValueType>::iterator nativeIter=values.begin();
+    if(nativeIter!=values.end())
+    {
+        std::cout<<nativeIter->first<<":"<<nativeIter->second;
+        ++nativeIter;
+        for(; nativeIter!=values.end(); ++nativeIter)
+            std::cout<<", "<<nativeIter->first<<":"<<nativeIter->second;;
+        std::cout<<std::endl;
+    }
+}
+
 int main(int argc, char **argv)
 {
 ////////////////////////////////////////////////////////////////////////
@@ -112,7 +140,7 @@ int main(int argc, char **argv)
     std::cout<<"Test string return from base"<<std::endl;
     testStringIter(returnStringBase);
 
-    std::cout<<"Test vector edit by ref"<<std::endl;
+    std::cout<<"Test string edit by ref"<<std::endl;
     example_std::string testString("Test string");
     std::cout<<"  Before edit: "<<testString.c_str()<<std::endl;
     example_std::testStringEdit(testString);
@@ -151,9 +179,24 @@ int main(int argc, char **argv)
     listVector(testVec);
     std::cout<<std::endl;
 
-//    void testVectorEditByType(vector<size_t> &vec);
+    std::cout<<std::endl;
 
-#if(defined(_WINDOWS))
+//    void testVectorEditByType(vector<size_t> &vec);
+////////////////////////////////////////////////////////////////////////
+//map test
+////////////////////////////////////////////////////////////////////////
+    example_std::map<example_std::string, int> returnMap=example_std::testMapReturn();
+
+    std::cout<<"Test map return"<<std::endl;
+    testMapIter(returnMap);
+
+    example_std::map<example_std::string, int> returnMapBase=example_std::testMapReturnFromBase();
+
+    std::cout<<"Test map base return"<<std::endl;
+    testMapIter(returnMapBase);
+
+//    std::map<std::string, int> testMap;
+    #if(defined(_WINDOWS))
     system("pause");
 #endif
 
