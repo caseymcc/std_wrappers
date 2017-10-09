@@ -87,6 +87,50 @@ void testVectorEditByType(vector<size_t> &vec)
 //    values.push_back(99);
 }
 
+list<size_t> testListReturn()
+{
+    list<size_t> values;
+
+    values.push_back(10);
+    values.push_back(20);
+    values.push_back(30);
+    values.push_back(40);
+    values.push_back(50);
+    values.push_back(60);
+    values.push_back(70);
+    values.push_back(80);
+    values.push_back(90);
+    values.push_back(100);
+
+    return values;
+}
+
+list<size_t> testListReturnFromBase()
+{
+    std::list<size_t> values;
+
+    values.push_back(10);
+    values.push_back(20);
+    values.push_back(30);
+    values.push_back(40);
+    values.push_back(50);
+    values.push_back(60);
+    values.push_back(70);
+    values.push_back(80);
+    values.push_back(90);
+    values.push_back(100);
+
+    return list<size_t>(values);
+}
+
+void testListEdit(list<size_t> &values)
+{
+    if(!values.empty())
+        values.erase(values.begin());
+
+    values.push_back(99);
+}
+
 map<string, int> testMapReturn()
 {
     map<string, int>  values;

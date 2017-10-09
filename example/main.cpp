@@ -92,6 +92,61 @@ void testVectorIter(example_std::vector<_Type> &vec)
     }
 }
 
+template<typename _Type>
+void testListIter(example_std::list<_Type> &list)
+{
+    std::cout<<"  Test iterator: ";
+    example_std::list<_Type>::iterator iter=list.begin();
+    if(iter!=list.end())
+    {
+        std::cout<<*iter;
+        ++iter;
+        for(; iter!=list.end(); ++iter)
+            std::cout<<", "<<*iter;
+        std::cout<<std::endl;
+    }
+
+    std::list<_Type> values(list.begin(), list.end());
+    std::cout<<"  Test native iterator constructor copy: ";
+    std::list<_Type>::iterator nativeIter=values.begin();
+    if(nativeIter!=values.end())
+    {
+        std::cout<<*nativeIter;
+        ++nativeIter;
+        for(; nativeIter!=values.end(); ++nativeIter)
+            std::cout<<", "<<*nativeIter;
+        std::cout<<std::endl;
+    }
+
+    std::list<_Type> values2;
+
+    values2.assign(list.begin(), list.end());
+    std::cout<<"  Test native assign copy: ";
+    nativeIter=values2.begin();
+    if(nativeIter!=values2.end())
+    {
+        std::cout<<*nativeIter;
+        ++nativeIter;
+        for(; nativeIter!=values2.end(); ++nativeIter)
+            std::cout<<", "<<*nativeIter;
+        std::cout<<std::endl;
+    }
+}
+
+template<typename _Type>
+void listList(example_std::list<_Type> &list)
+{
+    example_std::list<_Type>::iterator iter=list.begin();
+    if(iter!=list.end())
+    {
+        std::cout<<*iter;
+        ++iter;
+        for(; iter!=list.end(); ++iter)
+            std::cout<<", "<<*iter;
+//        std::cout<<std::endl;
+    }
+}
+
 template<typename _KeyType, typename _ValueType>
 void testMapIter(example_std::map<_KeyType, _ValueType> &map)
 {
@@ -182,6 +237,39 @@ int main(int argc, char **argv)
     std::cout<<std::endl;
 
 //    void testVectorEditByType(vector<size_t> &vec);
+
+////////////////////////////////////////////////////////////////////////
+//list test
+////////////////////////////////////////////////////////////////////////
+    example_std::list<size_t> returnList=example_std::testListReturn();
+
+    std::cout<<"Test list return"<<std::endl;
+    testListIter(returnList);
+
+    example_std::list<size_t> returnListBase=example_std::testListReturnFromBase();
+
+    std::cout<<"Test list return from base"<<std::endl;
+    testListIter(returnListBase);
+
+    example_std::list<size_t> testList;
+
+    testList.push_back(11);
+    testList.push_back(22);
+    testList.push_back(33);
+    testList.push_back(44);
+    testList.push_back(55);
+
+    std::cout<<"Test list edit by ref"<<std::endl;
+    std::cout<<"  Before edit: ";
+    listList(testList);
+    std::cout<<std::endl;
+    example_std::testListEdit(testList);
+    std::cout<<"  After edit: ";
+    listList(testList);
+    std::cout<<std::endl;
+
+    std::cout<<std::endl;
+
 ////////////////////////////////////////////////////////////////////////
 //map test
 ////////////////////////////////////////////////////////////////////////

@@ -7,7 +7,7 @@
 #include <vector>
 #include <memory>
 #include <map>
-#include <unordered_map>
+#include <list>
 
 #ifdef EXAMPLE_STD_EXPORTS
 #define EXAMPLE_STD_EXTERN
@@ -23,9 +23,11 @@ namespace example_std
 
 #include "std_wrappers/string.h"
 #include "std_wrappers/vector.h"
+#include "std_wrappers/list.h"
 
 STD_WRAP_STRING(EXAMPLE_STD_EXTERN, EXAMPLE_STD_EXPORT);
 STD_WRAP_VECTOR(EXAMPLE_STD_EXTERN, EXAMPLE_STD_EXPORT, size_t);
+STD_WRAP_LIST(EXAMPLE_STD_EXTERN, EXAMPLE_STD_EXPORT, size_t);
 
 struct EXAMPLE_STD_EXPORT TestStruct
 {

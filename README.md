@@ -3,6 +3,7 @@ This repo provides wrappers for standard library templates so that they can be e
 * shared_ptr
 * string
 * vector
+* list
 * map
 
 The templates are expected to be included in the library (lib or dll) by including both a header and source file for the template (preferable in a namspace to reduce conflicts). You need to include the actuall stand library class as well as handle import/exporting of the new classes. There are also provided macros to help with the import/export along with the class instantiation. This all can be seen in the example provided with the source.
